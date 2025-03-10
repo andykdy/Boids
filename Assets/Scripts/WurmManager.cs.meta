@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: ea261bd0076defa4e810554c4625fd12
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - WurmPrefab: {fileID: 4124067451727837443, guid: 2acfad4a34e11ab4bb29169365f04f59, type: 3}
+  - behaviour: {fileID: 11400000, guid: 2d74fee4d40eca7499110e9b43896f1f, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

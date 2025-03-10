@@ -1,11 +1,15 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
 public class Wurm : MonoBehaviour
 {
     [SerializeField]
-    private Rigidbody2D m_rigBody;
-    public Rigidbody2D RigBody => m_rigBody;
+    private Collider2D m_rigBody;
+    public Collider2D RigBody => m_rigBody;
+
+    [SerializeField]
+    private WurmManager m_manager;
+    public WurmManager Manager => m_manager;
 
     [SerializeField]
     private float m_speedConst;
@@ -15,42 +19,17 @@ public class Wurm : MonoBehaviour
 
     void Start()
     {
+        m_rigBody = GetComponent<Collider2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Initialize(WurmManager wManager)
     {
-        bool isWallChecked = CheckWallRotation();
-        if (!isWallChecked)
-        {
-            m_rigBody.MovePositionAndRotation(m_rigBody.position + (Vector2)transform.up * m_speedConst, m_rigBody.rotation);
-        }
+        m_manager = wManager;
     }
 
-    bool CheckWallRotation()
+    public void Move(Vector2 vel)
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 1.0f);
-        RaycastHit2D leftHit = Physics2D.Raycast(transform.position, Quaternion.Euler(0, -30, 0) * Vector2.up, 1.0f);
-        RaycastHit2D rightHit = Physics2D.Raycast(transform.position, Quaternion.Euler(0, 30, 0) * Vector2.up, 1.0f);
-        if (hit || leftHit || rightHit)
-        {
-            if (leftHit && !rightHit)
-            {
-                m_rigBody.MovePositionAndRotation(m_rigBody.position + (Vector2)transform.up * m_speedConst, m_rigBody.rotation + m_rotConst);
-            }else if (rightHit && !leftHit)
-            {
-                m_rigBody.MovePositionAndRotation(m_rigBody.position + (Vector2)transform.up * m_speedConst, m_rigBody.rotation - m_rotConst);
-            }
-            else
-            {
-                m_rigBody.MovePositionAndRotation(m_rigBody.position + (Vector2)transform.up * m_speedConst, m_rigBody.rotation + m_rotConst);
-            }
-            return true;
-
-        }
-        else
-        {
-            return false;
-        }
+        transform.up = vel;
+        transform.position += (Vector3)vel * Time.deltaTime;
     }
 }
